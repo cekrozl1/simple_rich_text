@@ -31,7 +31,7 @@ Color parseColor(String color) {
 //  print("parseColor: $color");
   var v = colorMap[color];
   if (v == null) {
-    return Colors.red;
+    return getColor(color);
   } else {
 //    return Color(v);
 //    return Colors.green;
@@ -40,6 +40,17 @@ Color parseColor(String color) {
 //    print("parseColor: $color => $out");
     return out;
   }
+}
+
+Color getColor(String color) {
+  if (color.isEmpty) {
+    return Colors.transparent;
+  }
+  String hexColor = color.replaceAll("#", "");
+  if (hexColor.length == 6) {
+    hexColor = "FF" + hexColor;
+  }
+  return Color(int.parse("0x$hexColor"));
 }
 
 /// Widget that renders a string with sub-string highlighting.
@@ -129,7 +140,7 @@ class SimpleRichText extends StatelessWidget {
         log('Line ${k + 1}: ${linesList[k]}');
         // split into array
         List<String> spanList =
-            linesList[k].split(RegExp(chars ?? r"[*~/_\\]"));
+            linesList[k].split(RegExp(chars ?? r"(?=(?![^{]*}))[*~/_\\]");
         log("len=${spanList.length}: $spanList");
 
         if (spanList.length == 1) {
